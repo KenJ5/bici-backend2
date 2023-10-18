@@ -1,0 +1,40 @@
+
+{% extends 'layout.html' %}
+{% block title%}Titulo de la pagina
+{% endblock %}
+{% block body%}
+
+<h2>Traza tus ruta y guardalas!</h2>
+<div class="col-md-10 mx-auto col-lg-5 cool" style="margin: 40px;">
+    <form id="formulario-ruta" class="p-4 p-md-5 border rounded-3 bg-body-tertiary" onsubmit="return buscarRuta()">
+        <p style="text-align: center; font-size: 20px;">Agrega una nueva Ruta<p>
+        <div class="form-floating mb-3">
+             <input type="text" class="form-control" id="punto_a" placeholder="">
+            <label for="punto_a">Inicio de Ruta</label>
+        </div>
+        <div class="form-floating mb-3">
+            <input type="text" class="form-control" id="punto_b" placeholder="">
+            <label for="punto_b">Fin de la Ruta</label>
+            <input type="text" style="display: none;" id="id_user" value="{{id_user}}">
+
+        </div>
+        <input class="w-100 btn btn-lg btn-primary" type="submit" value="Agregar y Visualizar">
+
+        <hr class="my-4">
+    </form>
+
+
+</div>
+
+<div class="">
+    <div id="mapa" style="width: 100%; height: 400px"></div>
+</div>
+<script src="{{url_for('static', filename='/js/rutas/agregar_ruta.js')}}"></script>
+<script src="{{url_for('static', filename='/js/mapa.js')}}"></script>
+<script
+src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCIxYzRB_ERZgXg6qr8pTxoof1GYCqPkLE&libraries=places"
+async
+defer
+></script>
+
+{% endblock %}

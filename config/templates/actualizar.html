@@ -1,0 +1,17 @@
+{% extends 'layout.html' %}
+{% block title%}Titulo de la pagina
+{% endblock %}
+{% block body%}
+
+<div id="form-actualizacion" style="display: none;">
+    <h2>Actualizar Usuario</h2>
+    <form class="form-actualizacion" onsubmit="actualizarUsuario(event)">
+        <input type="hidden" id="id-usuario-actualizacion" value="">
+        <input type="text" id="nombre-actualizacion" placeholder="Nombre" required>
+        <input type="email" id="correo-actualizacion" placeholder="Correo" required>
+        <button type="submit" class="btn btn-update">Actualizar</button>
+        <button type="button" onclick="cancelarActualizacion()" class="btn btn-delete">Cancelar</button>
+    </form>
+</div>
+
+{% endblock %}

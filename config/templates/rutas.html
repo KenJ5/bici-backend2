@@ -1,0 +1,111 @@
+{% extends 'layout.html' %}
+{% block title%}Titulo de la pagina
+{% endblock %}
+{% block body%}
+
+
+
+
+<h1 style="text-align: center;">Lista de Rutas Existentes</h1>
+
+<table>
+    <h2 style="text-align: center;">TUS RUTAS EXISTENTES</h2>
+    <thead>
+        <tr>
+            <th>ID</th>
+            <th>Dir. Inicio</th>
+            <th>Dir. Fin</th>
+            <th>Acciones</th>
+        </tr>
+    </thead>
+    <tbody id="tabla-rutas">
+        <!-- Los datos se cargarán aquí desde la API -->
+    </tbody>
+</table>
+
+
+<script>
+    // Simulación de datos de la API (reemplaza con tu lógica real de API)
+    async function obtenerRutas() {
+        const url = 'http://localhost:5000/api_rutas/rutas'; // Reemplaza con la URL de tu API de comentarios
+
+        try {
+            const response = await fetch(url);
+            const rutas = await response.json();
+
+            const tablaRutas = document.getElementById('tabla-rutas');
+            rutas.forEach(ruta => {
+                const row = document.createElement('tr');
+                row.innerHTML = `
+                <td>${ruta.id}</td>
+                <td>${ruta.punto_a}</td>
+                <td>${ruta.punto_b}</td>
+                <td>
+                    <button class="btn btn-update" onclick="AgregarAlerta(${ruta.id})">Añadir Alarma</button>
+                    <button class="btn btn-delete" onclick="eliminarRuta(${ruta.id})">Eliminar</button>
+                </td>
+            `;
+                tablaRutas.appendChild(row);
+            });
+        } catch (error) {
+            console.error('Error al obtener comentarios:', error);
+        }
+    }
+
+    
+    
+
+    function eliminarRuta(id) {
+        fetch(`api_rutas/deleteruta/${id}`, {
+            method: 'DELETE'
+        })
+            .then(response => {
+                if (response.ok) {
+                    console.log('Usuario eliminado con éxito.');
+                    // Actualizar la tabla después de eliminar el usuario
+                    const tablaRutas = document.getElementById('tabla-rutas');
+                    tablaRutas.innerHTML = '';
+                    obtenerRutas();
+                } else {
+                    console.error('Error al eliminar el usuario:', response.statusText);
+                }
+            })
+            .catch(error => console.error('Error:', error));
+        // Aquí puedes implementar la lógica para eliminar el usuario
+    }
+
+
+    async function obtenerAlarmas() {
+        const url = 'http://localhost:5000/api_alerta/alertas'; // Reemplaza con la URL de tu API de comentarios
+
+        try {
+            const response = await fetch(url);
+            const alarmas = await response.json();
+
+            const tablaAlarmas = document.getElementById('tabla-alarmas');
+            alarmas.forEach(alarma => {
+                const row = document.createElement('tr');
+                row.innerHTML = `
+                <td>${alarma.id}</td>
+                <td>${alarma.id_ruta}</td>
+                <td>${alarma.tipo}</td>
+                <td>
+                    <button class="btn btn-update" onclick="actualizarUsuario(${alarma.id})">Actualizar</button>
+                    <button class="btn btn-delete" onclick="eliminarAlarma(${alarma.id})">Eliminar</button>
+                </td>
+            `;
+                tablaAlarmas.appendChild(row);
+            });
+        } catch (error) {
+            console.error('Error al obtener comentarios:', error);
+        }
+    }
+    window.onload = function() {
+        obtenerAlarmas();
+        obtenerRutas();
+    };
+    ;
+</script>
+<script src="{{url_for('static', filename='/js/configurar_alerta/agrega_alerta.js')}}"></script>
+
+{% endblock %}
